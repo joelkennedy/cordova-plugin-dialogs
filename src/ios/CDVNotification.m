@@ -226,19 +226,11 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
     playBeep([count intValue]);
 }
 
--(UIViewController *)getTopPresentedViewController {
-    UIViewController *presentingViewController = self.viewController;
-    while(presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed])
-    {
-        presentingViewController = presentingViewController.presentedViewController;
-    }
-    return presentingViewController;
-}
 
 -(void)presentAlertcontroller {
     
     __weak CDVNotification* weakNotif = self;
-    [self.getTopPresentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
+    [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
         [alertList removeObject:[alertList firstObject]];
         if ([alertList count]>0) {
             [weakNotif presentAlertcontroller];
